@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets/SpinCube.cs" />
     <Compile Include="Assets/CubeComm.cs" />
+    <Compile Include="Assets/RNBridge.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
