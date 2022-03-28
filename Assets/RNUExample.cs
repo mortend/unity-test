@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Azesmway.RNU;
 using UnityEngine;
 
-public class CubeComm : MonoBehaviour, IRNCommandsReceiver
+public class RNUExample : MonoBehaviour, IRNCommandsReceiver
 {
     void Awake()
     {
@@ -15,7 +15,9 @@ public class CubeComm : MonoBehaviour, IRNCommandsReceiver
         switch (command.name)
         {
             default:
-                // command.Resolve(new {}) || command.Reject(new {})
+                Debug.Log(command.name);
+                // command.Reject(new {});
+                command.Resolve(new {});
                 break;
         }
     }
