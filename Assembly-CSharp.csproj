@@ -56,8 +56,8 @@
     <Analyzer Include="/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.Unity/Analyzers/Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets/SpinCube.cs" />
-    <Compile Include="Assets/RNUExample.cs" />
+    <Compile Include="Assets/Example/SpinCube.cs" />
+    <Compile Include="Assets/Example/RNUExample.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
