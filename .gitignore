@@ -1,4 +1,6 @@
 /.vs/
+/.vsconfig
+/*.csproj
 /*.sln
 /Library/
 /Logs/
