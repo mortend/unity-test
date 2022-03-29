@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Newtonsoft.Json.Linq;
 
-namespace Azesmway.RNU
+namespace RNUnity
 {
     public class RNMessage
     {

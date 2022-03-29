@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
 
-namespace Azesmway.RNU.Editor
+namespace RNUnity.Editor
 {
     public class RNBuild
     {

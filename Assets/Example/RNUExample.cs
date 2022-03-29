@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Azesmway.RNU;
+using RNUnity;
 using UnityEngine;
 
 public class RNUExample : MonoBehaviour, IRNCommandsReceiver
