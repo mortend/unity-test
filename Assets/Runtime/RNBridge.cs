@@ -188,6 +188,7 @@ namespace RNUnity
             }
             try
             {
+                Debug.Log($"SentReceiver: {unityReact}");
                 unityReact?.SetReceiver(ReceiveHandshake, ReceiveCommand);
             }
             catch (System.Exception e)
@@ -299,6 +300,7 @@ namespace RNUnity
 
             void IUnityReact.SetReceiver(System.Action handshake, System.Action<string> command)
             {
+                Debug.Log($"SetReceiver: {unityReactActivity}");
                 unityReactActivity.Call("setReceiver", new AndroidReceiver(handshake, command));
             }
 

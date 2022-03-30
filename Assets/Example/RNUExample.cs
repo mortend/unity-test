@@ -21,4 +21,10 @@ public class RNUExample : MonoBehaviour, IRNCommandsReceiver
                 break;
         }
     }
+
+    public void foo(object param)
+    {
+        Debug.Log($"foo: {param}");
+        RNBridge.SendEvent("lol");
+    }
 }

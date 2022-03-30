@@ -17,4 +17,9 @@ public class SpinCube : MonoBehaviour
     {
         transform.Rotate(RotateAmount);
     }
+
+    void resetRotation()
+    {
+        RotateAmount = default(Vector3);
+    }
 }
