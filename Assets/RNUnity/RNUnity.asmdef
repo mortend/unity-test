@@ -1,9 +1,0 @@
-{
-    "name": "RNUnity",
-    "optionalUnityReferences": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": []
-}
