@@ -1,27 +1,73 @@
 using System.Runtime.InteropServices;
+using System;
 using Newtonsoft.Json;
 using UnityEngine;
 
-using Newtonsoft.Json.Linq;
-
 namespace RNUnity
 {
+    public class RNPromise
+    {
+        public object handle;
+        public object input;
+
+        public void Reject(object data)
+        {
+            RNBridge.EmitEvent("reject", new {
+                handle = this.handle,
+                data = data
+            });
+        }
+
+        public void Resolve(object data)
+        {
+            RNBridge.EmitEvent("resolve", new {
+                handle = this.handle,
+                data = data
+            });
+        }
+    }
+
     public static class RNBridge
     {
-        static IRN _rn;
-
-        public static void EmitEvent(string name, string data)
+        public static RNPromise Begin(object param)
         {
+            if (Application.isEditor)
+                return new RNPromise();
+
             if (Debug.isDebugBuild)
-                Debug.Log($"{nameof(RNBridge)}: try emit event <{name}>");
+                Debug.Log($"{nameof(RNBridge)}: begin");
 
             try
             {
-                _rn.EmitEvent(name, data);
+                return JsonConvert.DeserializeObject<RNPromise>((string) param);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                Debug.LogError($"{nameof(RNBridge)}: exception during try emit event <{e.Message}>");
+                Debug.LogError($"{nameof(RNBridge)}: {e.Message}");
+                return new RNPromise();
+            }
+        }
+
+        public static void SendMessage(object data)
+        {
+            EmitEvent("message", data);
+        }
+
+        internal static void EmitEvent(string name, object data)
+        {
+            if (Application.isEditor)
+                return;
+
+            if (Debug.isDebugBuild)
+                Debug.Log($"{nameof(RNBridge)}: event <{name}>");
+
+            try
+            {
+                _rn.EmitEvent(name, JsonConvert.SerializeObject(data));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{nameof(RNBridge)}: {e.Message}");
             }
         }
 
@@ -32,7 +78,7 @@ namespace RNUnity
                 return;
 
             if (Debug.isDebugBuild)
-                Debug.Log($"{nameof(RNBridge)}: try initialize");
+                Debug.Log($"{nameof(RNBridge)}: initialize");
 
             try
             {
@@ -41,26 +87,28 @@ namespace RNUnity
                 else if (Application.platform == RuntimePlatform.IPhonePlayer)
                     _rn = new NativeRN();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                Debug.LogError($"{nameof(RNBridge)}: exception during try initialize <{e.Message}>");
+                Debug.LogError($"{nameof(RNBridge)}: {e.Message}");
             }
         }
 
+        static IRN _rn;
+
         interface IRN
         {
-            void EmitEvent(string name, string data);
+            void EmitEvent(string name, string json);
         }
 
         class NativeRN : IRN
         {
-            void IRN.EmitEvent(string name, string data)
+            void IRN.EmitEvent(string name, string json)
             {
-                RNUProxyEmitEvent(name, data);
+                RNUProxyEmitEvent(name, json);
             }
 
             [DllImport("__Internal")]
-            static extern void RNUProxyEmitEvent(string name, string data);
+            static extern void RNUProxyEmitEvent(string name, string json);
         }
 
         class AndroidRN : IRN
@@ -69,7 +117,7 @@ namespace RNUnity
 
             public AndroidRN()
             {
-                AndroidJavaClass jc = new AndroidJavaClass("com.rnunity.UnityBridge");
+                AndroidJavaClass jc = new AndroidJavaClass("com.azesmway.rnunity.RNUnityModule");
                 _jobj = jc.CallStatic<AndroidJavaObject>("getInstance");
             }
 
