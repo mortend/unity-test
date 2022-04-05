@@ -10,19 +10,19 @@ namespace RNUnity
         public object handle;
         public object input;
 
-        public void Reject(object data)
+        public void Reject(object reason)
         {
             RNBridge.EmitEvent("reject", new {
                 handle = this.handle,
-                data = data
+                data = reason
             });
         }
 
-        public void Resolve(object data)
+        public void Resolve(object retval = null)
         {
             RNBridge.EmitEvent("resolve", new {
                 handle = this.handle,
-                data = data
+                data = retval
             });
         }
     }

@@ -76,6 +76,13 @@ public class SpinCube : MonoBehaviour
             .Begin(param)
             .Reject("This doesn't work");
     }
+
+    void voidRN(object param)
+    {
+        RNBridge
+            .Begin(param)
+            .Resolve();
+    }
 }
 
 public class Account
