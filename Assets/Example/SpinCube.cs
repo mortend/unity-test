@@ -55,14 +55,14 @@ public class SpinCube : MonoBehaviour
     void toggleRotateRN(object param)
     {
         toggleRotate();
-        RNBridge
+        RNPromise
             .Begin(param)
             .Resolve(_rotate);
     }
 
     void getAccountRN(object param)
     {
-        RNBridge
+        RNPromise
             .Begin(param)
             .Resolve(new Account
             {
@@ -79,14 +79,14 @@ public class SpinCube : MonoBehaviour
 
     void failRN(object param)
     {
-        RNBridge
+        RNPromise
             .Begin(param)
             .Reject("This doesn't work");
     }
 
     void setColorRN(object param)
     {
-        var promise = RNBridge.Begin<string>(param);
+        var promise = RNPromise<string>.Begin(param);
         setColor(promise.input);
         promise.Resolve();
     }

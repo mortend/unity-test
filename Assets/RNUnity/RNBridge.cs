@@ -9,6 +9,11 @@ namespace RNUnity
     {
         public object handle;
 
+        public static RNPromise Begin(object param)
+        {
+            return RNPromise<object>.Begin(param);
+        }
+
         public void Reject<TReason>(TReason reason)
         {
             RNBridge.EmitEvent("reject", new {
@@ -36,22 +41,14 @@ namespace RNUnity
     public class RNPromise<T> : RNPromise
     {
         public T input;
-    }
 
-    public static class RNBridge
-    {
-        public static RNPromise Begin(object param)
-        {
-            return Begin<object>(param);
-        }
-
-        public static RNPromise<T> Begin<T>(object param)
+        public static new RNPromise<T> Begin(object param)
         {
             if (Application.isEditor)
                 return new RNPromise<T>();
 
             if (Debug.isDebugBuild)
-                Debug.Log($"{nameof(RNBridge)}: begin");
+                Debug.Log($"{nameof(RNPromise)}: begin");
 
             try
             {
@@ -59,11 +56,14 @@ namespace RNUnity
             }
             catch (Exception e)
             {
-                Debug.LogError($"{nameof(RNBridge)}: {e.Message}");
+                Debug.LogError($"{nameof(RNPromise)}: {e.Message}");
                 return new RNPromise<T>();
             }
         }
+    }
 
+    public static class RNBridge
+    {
         public static void SendMessage(object data)
         {
             EmitEvent("message", data);
