@@ -8,43 +8,59 @@ namespace RNUnity
     public class RNPromise
     {
         public object handle;
-        public object input;
 
-        public void Reject(object reason)
+        public void Reject<TReason>(TReason reason)
         {
             RNBridge.EmitEvent("reject", new {
                 handle = this.handle,
-                data = reason
+                reason = reason
             });
         }
 
-        public void Resolve(object retval = null)
+        public void Resolve<TRetval>(TRetval retval)
         {
             RNBridge.EmitEvent("resolve", new {
                 handle = this.handle,
-                data = retval
+                retval = retval
             });
         }
+
+        public void Resolve()
+        {
+            RNBridge.EmitEvent("resolve", new {
+                handle = this.handle
+            });
+        }
+    }
+
+    public class RNPromise<T> : RNPromise
+    {
+        public T input;
     }
 
     public static class RNBridge
     {
         public static RNPromise Begin(object param)
         {
+            return Begin<object>(param);
+        }
+
+        public static RNPromise<T> Begin<T>(object param)
+        {
             if (Application.isEditor)
-                return new RNPromise();
+                return new RNPromise<T>();
 
             if (Debug.isDebugBuild)
                 Debug.Log($"{nameof(RNBridge)}: begin");
 
             try
             {
-                return JsonConvert.DeserializeObject<RNPromise>((string) param);
+                return JsonConvert.DeserializeObject<RNPromise<T>>((string) param);
             }
             catch (Exception e)
             {
                 Debug.LogError($"{nameof(RNBridge)}: {e.Message}");
-                return new RNPromise();
+                return new RNPromise<T>();
             }
         }
 
@@ -121,9 +137,9 @@ namespace RNUnity
                 _jobj = jc.CallStatic<AndroidJavaObject>("getInstance");
             }
 
-            void IRN.EmitEvent(string name, string data)
+            void IRN.EmitEvent(string name, string json)
             {
-                _jobj.Call("emitEvent", name, data);
+                _jobj.Call("emitEvent", name, json);
             }
         }
     }
