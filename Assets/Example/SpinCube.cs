@@ -29,8 +29,8 @@ public class SpinCube : MonoBehaviour
     void setColor(string input)
     {
         Color color;
-        ColorUtility.TryParseHtmlString(input, out color);
-        GetComponent<Renderer>().material.color = new Color(0, 255, 0);
+        if (ColorUtility.TryParseHtmlString(input, out color))
+            GetComponent<Renderer>().material.color = color;
     }
 
     void toggleRotate()
