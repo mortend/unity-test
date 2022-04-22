@@ -44,7 +44,7 @@ namespace RNUnity
             {
                 if (Application.platform == RuntimePlatform.Android)
                     _rn = new AndroidRN();
-                else if (Application.platform == RuntimePlatform.IPhonePlayer)
+                else
                     _rn = new NativeRN();
             }
             catch (Exception e)
