@@ -1,6 +1,6 @@
 #import "RNUProxy.h"
 
-@interface RNUnity : NSObject
+@protocol RNUnity <NSObject>
 
 + (void)emitEvent:(const char*)name data:(const char*)data;
 
