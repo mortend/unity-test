@@ -90,32 +90,6 @@ public class SpinCube : MonoBehaviour
         setColor(promise.input);
         promise.Resolve();
     }
-
-    void getStatusBarStateRN(object param)
-    {
-        RNPromise.Begin(param)
-            .Resolve((int) ApplicationChrome.statusBarState);
-    }
-
-    void setStatusBarStateRN(object param)
-    {
-        var promise = RNPromise<int>.Begin(param);
-        ApplicationChrome.statusBarState = (ApplicationChrome.States) promise.input;
-        promise.Resolve();
-    }
-
-    void getStatusBarColorRN(object param)
-    {
-        RNPromise.Begin(param)
-            .Resolve((double) ApplicationChrome.statusBarColor);
-    }
-
-    void setStatusBarColorRN(object param)
-    {
-        var promise = RNPromise<double>.Begin(param);
-        ApplicationChrome.statusBarColor = (uint) promise.input;
-        promise.Resolve();
-    }
 }
 
 public class Account
